@@ -1,141 +1,137 @@
-import React, { useEffect, useRef, useCallback } from "react";
-import { useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
-
+import React, { useEffect, useRef, useCallback } from "react"
+import { useLocation } from "react-router-dom"
+import PropTypes from "prop-types"
 
 // //Import Scrollbar
-import SimpleBar from "simplebar-react";
+import SimpleBar from "simplebar-react"
 
 // MetisMenu
-import MetisMenu from "metismenujs";
-import withRouter from "components/Common/withRouter";
-import { Link } from "react-router-dom";
-
-//i18n
-import { withTranslation } from "react-i18next";
+import MetisMenu from "metismenujs"
+import withRouter from "components/Common/withRouter"
+import { Link } from "react-router-dom"
 
 const SidebarContent = props => {
-  const ref = useRef();
-  const activateParentDropdown = useCallback((item) => {
-    item.classList.add("active");
-    const parent = item.parentElement;
-    const parent2El = parent.childNodes[1];
+  const ref = useRef()
+  const activateParentDropdown = useCallback(item => {
+    item.classList.add("active")
+    const parent = item.parentElement
+    const parent2El = parent.childNodes[1]
 
     if (parent2El && parent2El.id !== "side-menu") {
-      parent2El.classList.add("mm-show");
+      parent2El.classList.add("mm-show")
     }
 
     if (parent) {
-      parent.classList.add("mm-active");
-      const parent2 = parent.parentElement;
+      parent.classList.add("mm-active")
+      const parent2 = parent.parentElement
 
       if (parent2) {
-        parent2.classList.add("mm-show"); // ul tag
+        parent2.classList.add("mm-show") // ul tag
 
-        const parent3 = parent2.parentElement; // li tag
+        const parent3 = parent2.parentElement // li tag
 
         if (parent3) {
-          parent3.classList.add("mm-active"); // li
-          parent3.childNodes[0].classList.add("mm-active"); //a
-          const parent4 = parent3.parentElement; // ul
+          parent3.classList.add("mm-active") // li
+          parent3.childNodes[0].classList.add("mm-active") //a
+          const parent4 = parent3.parentElement // ul
           if (parent4) {
-            parent4.classList.add("mm-show"); // ul
-            const parent5 = parent4.parentElement;
+            parent4.classList.add("mm-show") // ul
+            const parent5 = parent4.parentElement
             if (parent5) {
-              parent5.classList.add("mm-show"); // li
-              parent5.childNodes[0].classList.add("mm-active"); // a tag
+              parent5.classList.add("mm-show") // li
+              parent5.childNodes[0].classList.add("mm-active") // a tag
             }
           }
         }
       }
-      scrollElement(item);
-      return false;
+      scrollElement(item)
+      return false
     }
-    scrollElement(item);
-    return false;
-  }, []);
+    scrollElement(item)
+    return false
+  }, [])
 
-  const removeActivation = (items) => {
+  const removeActivation = items => {
     for (var i = 0; i < items.length; ++i) {
-      var item = items[i];
-      const parent = items[i].parentElement;
+      var item = items[i]
+      const parent = items[i].parentElement
 
       if (item && item.classList.contains("active")) {
-        item.classList.remove("active");
+        item.classList.remove("active")
       }
       if (parent) {
         const parent2El =
           parent.childNodes && parent.childNodes.lenght && parent.childNodes[1]
             ? parent.childNodes[1]
-            : null;
+            : null
         if (parent2El && parent2El.id !== "side-menu") {
-          parent2El.classList.remove("mm-show");
+          parent2El.classList.remove("mm-show")
         }
 
-        parent.classList.remove("mm-active");
-        const parent2 = parent.parentElement;
+        parent.classList.remove("mm-active")
+        const parent2 = parent.parentElement
 
         if (parent2) {
-          parent2.classList.remove("mm-show");
+          parent2.classList.remove("mm-show")
 
-          const parent3 = parent2.parentElement;
+          const parent3 = parent2.parentElement
           if (parent3) {
-            parent3.classList.remove("mm-active"); // li
-            parent3.childNodes[0].classList.remove("mm-active");
+            parent3.classList.remove("mm-active") // li
+            parent3.childNodes[0].classList.remove("mm-active")
 
-            const parent4 = parent3.parentElement; // ul
+            const parent4 = parent3.parentElement // ul
             if (parent4) {
-              parent4.classList.remove("mm-show"); // ul
-              const parent5 = parent4.parentElement;
+              parent4.classList.remove("mm-show") // ul
+              const parent5 = parent4.parentElement
               if (parent5) {
-                parent5.classList.remove("mm-show"); // li
-                parent5.childNodes[0].classList.remove("mm-active"); // a tag
+                parent5.classList.remove("mm-show") // li
+                parent5.childNodes[0].classList.remove("mm-active") // a tag
               }
             }
           }
         }
       }
     }
-  };
+  }
 
-  const path = useLocation();
+  const path = useLocation()
   const activeMenu = useCallback(() => {
-    const pathName = path.pathname;
-    let matchingMenuItem = null;
-    const ul = document.getElementById("side-menu");
-    const items = ul.getElementsByTagName("a");
-    removeActivation(items);
+    const pathName = path.pathname
+    let matchingMenuItem = null
+    const ul = document.getElementById("side-menu")
+    const items = ul.getElementsByTagName("a")
+    removeActivation(items)
 
     for (let i = 0; i < items.length; ++i) {
       if (pathName === items[i].pathname) {
-        matchingMenuItem = items[i];
-        break;
+        matchingMenuItem = items[i]
+        break
       }
     }
     if (matchingMenuItem) {
-      activateParentDropdown(matchingMenuItem);
+      activateParentDropdown(matchingMenuItem)
     }
-  }, [path.pathname, activateParentDropdown]);
+  }, [path.pathname, activateParentDropdown])
 
   useEffect(() => {
-    ref.current.recalculate();
-  }, []);
+    ref.current.recalculate()
+  }, [])
 
   useEffect(() => {
-    new MetisMenu("#side-menu");
-    activeMenu();
-  }, []);
+    new MetisMenu("#side-menu")
+    activeMenu()
+  }, [])
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    activeMenu();
-  }, [activeMenu]);
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    activeMenu()
+  }, [activeMenu])
 
   function scrollElement(item) {
     if (item) {
-      const currentPosition = item.offsetTop;
+      const currentPosition = item.offsetTop
       if (currentPosition > window.innerHeight) {
-        ref.current.getScrollElement().scrollTop = currentPosition - 300;
+        ref.current.getScrollElement().scrollTop = currentPosition - 300
       }
     }
   }
@@ -145,88 +141,82 @@ const SidebarContent = props => {
       <SimpleBar className="h-100" ref={ref}>
         <div id="sidebar-menu">
           <ul className="metismenu list-unstyled" id="side-menu">
-            <li className="menu-title">{props.t("Menu")} </li>
+            <li className="menu-title">Menu </li>
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-home-circle"></i>
-                <span>{props.t("Dashboards")}</span>
+                <span>Dashboards</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/dashboard">{props.t("Default")}</Link>
+                  <Link to="/dashboard">Default</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Saas")}</Link>
+                  <Link to="#">Saas</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Crypto")}</Link>
+                  <Link to="#">Crypto</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Blog")}</Link>
+                  <Link to="#">Blog</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Job")}
-                  </Link>
+                  <Link to="#">Job</Link>
                 </li>
               </ul>
             </li>
 
-            <li className="menu-title">{props.t("Apps")}</li>
+            <li className="menu-title">Apps</li>
 
             <li>
-              <Link to="#" >
+              <Link to="#">
                 <i className="bx bx-calendar"></i>
-                <span>{props.t("Calendar")}</span>
+                <span>Calendar</span>
               </Link>
             </li>
 
             <li>
-              <Link to="#" >
+              <Link to="#">
                 <i className="bx bx-chat"></i>
-                <span>{props.t("Chat")}</span>
+                <span>Chat</span>
               </Link>
             </li>
             <li>
-              <Link to="#" >
+              <Link to="#">
                 <i className="bx bx-file"></i>
-                <span>{props.t("File Manager")}</span>
+                <span>File Manager</span>
               </Link>
             </li>
 
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-store"></i>
-                <span>{props.t("Ecommerce")}</span>
+                <span>Ecommerce</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Products")}</Link>
+                  <Link to="#">Products</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Product Detail")}
-                  </Link>
+                  <Link to="#">Product Detail</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Orders")}</Link>
+                  <Link to="#">Orders</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Customers")}</Link>
+                  <Link to="#">Customers</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Cart")}</Link>
+                  <Link to="#">Cart</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Checkout")}</Link>
+                  <Link to="#">Checkout</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Shops")}</Link>
+                  <Link to="#">Shops</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Add Product")}
-                  </Link>
+                  <Link to="#">Add Product</Link>
                 </li>
               </ul>
             </li>
@@ -234,31 +224,29 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-bitcoin"></i>
-                <span>{props.t("Crypto")}</span>
+                <span>Crypto</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Wallet")}</Link>
+                  <Link to="#">Wallet</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Buy/Sell")}</Link>
+                  <Link to="#">Buy/Sell</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Exchange")}</Link>
+                  <Link to="#">Exchange</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Lending")}</Link>
+                  <Link to="#">Lending</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Orders")}</Link>
+                  <Link to="#">Orders</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("KYC Application")}
-                  </Link>
+                  <Link to="#">KYC Application</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("ICO Landing")}</Link>
+                  <Link to="#">ICO Landing</Link>
                 </li>
               </ul>
             </li>
@@ -266,34 +254,28 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-envelope"></i>
-                <span>{props.t("Email")}</span>
+                <span>Email</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Inbox")}</Link>
+                  <Link to="#">Inbox</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Read Email")} </Link>
+                  <Link to="#">Read Email </Link>
                 </li>
                 <li>
                   <Link to="/#" className="has-arrow ">
-                    <span key="#">{props.t("Templates")}</span>
+                    <span key="#">Templates</span>
                   </Link>
                   <ul className="sub-menu">
                     <li>
-                      <Link to="#">
-                        {props.t("Basic Action")}
-                      </Link>
+                      <Link to="#">Basic Action</Link>
                     </li>
                     <li>
-                      <Link to="#">
-                        {props.t("Alert Email")}{" "}
-                      </Link>
+                      <Link to="#">Alert Email </Link>
                     </li>
                     <li>
-                      <Link to="#">
-                        {props.t("Billing Email")}{" "}
-                      </Link>
+                      <Link to="#">Billing Email </Link>
                     </li>
                   </ul>
                 </li>
@@ -303,14 +285,14 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-receipt"></i>
-                <span>{props.t("Invoices")}</span>
+                <span>Invoices</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Invoice List")}</Link>
+                  <Link to="#">Invoice List</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Invoice Detail")}</Link>
+                  <Link to="#">Invoice Detail</Link>
                 </li>
               </ul>
             </li>
@@ -318,22 +300,20 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-briefcase-alt-2"></i>
-                <span>{props.t("Projects")}</span>
+                <span>Projects</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Projects Grid")}</Link>
+                  <Link to="#">Projects Grid</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Projects List")}</Link>
+                  <Link to="#">Projects List</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Project Overview")}
-                  </Link>
+                  <Link to="#">Project Overview</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Create New")}</Link>
+                  <Link to="#">Create New</Link>
                 </li>
               </ul>
             </li>
@@ -341,17 +321,17 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-task"></i>
-                <span>{props.t("Tasks")}</span>
+                <span>Tasks</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Task List")}</Link>
+                  <Link to="#">Task List</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Kanban Board")}</Link>
+                  <Link to="#">Kanban Board</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Create Task")}</Link>
+                  <Link to="#">Create Task</Link>
                 </li>
               </ul>
             </li>
@@ -359,17 +339,17 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bxs-user-detail"></i>
-                <span>{props.t("Contacts")}</span>
+                <span>Contacts</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("User Grid")}</Link>
+                  <Link to="#">User Grid</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("User List")}</Link>
+                  <Link to="#">User List</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Profile")}</Link>
+                  <Link to="#">Profile</Link>
                 </li>
               </ul>
             </li>
@@ -378,17 +358,17 @@ const SidebarContent = props => {
               <Link to="/#" className="has-arrow">
                 <i className="bx bxs-detail" />
 
-                <span>{props.t("Blog")}</span>
+                <span>Blog</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Blog List")}</Link>
+                  <Link to="#">Blog List</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Blog Grid")}</Link>
+                  <Link to="#">Blog Grid</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Blog Details")}</Link>
+                  <Link to="#">Blog Details</Link>
                 </li>
               </ul>
             </li>
@@ -396,19 +376,35 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-briefcase-alt"></i>
-                <span key="t-jobs">{props.t("Jobs")}</span>
+                <span key="t-jobs">Jobs</span>
               </Link>
               <ul className="sub-menu">
-                <li><Link to="#">{props.t("Job List")}</Link></li>
-                <li><Link to="#">{props.t("Job Grid")}</Link></li>
-                <li><Link to="#">{props.t("Apply Job")}</Link></li>
-                <li><Link to="#">{props.t("Job Details")}</Link></li>
-                <li><Link to="#">{props.t("Jobs Categories")}</Link></li>
                 <li>
-                  <Link to="/#" className="has-arrow">{props.t("Candidate")}</Link>
+                  <Link to="#">Job List</Link>
+                </li>
+                <li>
+                  <Link to="#">Job Grid</Link>
+                </li>
+                <li>
+                  <Link to="#">Apply Job</Link>
+                </li>
+                <li>
+                  <Link to="#">Job Details</Link>
+                </li>
+                <li>
+                  <Link to="#">Jobs Categories</Link>
+                </li>
+                <li>
+                  <Link to="/#" className="has-arrow">
+                    Candidate
+                  </Link>
                   <ul className="sub-menu" aria-expanded="true">
-                    <li><Link to="#">{props.t("List")}</Link></li>
-                    <li><Link to="#">{props.t("Overview")}</Link></li>
+                    <li>
+                      <Link to="#">List</Link>
+                    </li>
+                    <li>
+                      <Link to="#">Overview</Link>
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -418,242 +414,209 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-user-circle"></i>
-                <span>{props.t("Authentication")}</span>
+                <span>Authentication</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Login")}</Link>
+                  <Link to="#">Login</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Login 2")}</Link>
+                  <Link to="#">Login 2</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Register")}</Link>
+                  <Link to="#">Register</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Register 2")}</Link>
+                  <Link to="#">Register 2</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Recover Password")}
-                  </Link>
+                  <Link to="#">Recover Password</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Recover Password 2")}
-                  </Link>
+                  <Link to="#">Recover Password 2</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Lock Screen")}</Link>
+                  <Link to="#">Lock Screen</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Lock Screen 2")}
-                  </Link>
+                  <Link to="#">Lock Screen 2</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Confirm Mail")}</Link>
+                  <Link to="#">Confirm Mail</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Confirm Mail 2")}
-                  </Link>
+                  <Link to="#">Confirm Mail 2</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Email Verification")}
-                  </Link>
+                  <Link to="#">Email Verification</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Email Verification 2")}
-                  </Link>
+                  <Link to="#">Email Verification 2</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Two Step Verification")}
-                  </Link>
+                  <Link to="#">Two Step Verification</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Two Step Verification 2")}
-                  </Link>
+                  <Link to="#">Two Step Verification 2</Link>
                 </li>
               </ul>
             </li>
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-file"></i>
-                <span>{props.t("Utility")}</span>
+                <span>Utility</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Starter Page")}</Link>
+                  <Link to="#">Starter Page</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Maintenance")}</Link>
+                  <Link to="#">Maintenance</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Coming Soon")}</Link>
+                  <Link to="#">Coming Soon</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Timeline")}</Link>
+                  <Link to="#">Timeline</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("FAQs")}</Link>
+                  <Link to="#">FAQs</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Pricing")}</Link>
+                  <Link to="#">Pricing</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Error 404")}</Link>
+                  <Link to="#">Error 404</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Error 500")}</Link>
+                  <Link to="#">Error 500</Link>
                 </li>
               </ul>
             </li>
 
-            <li className="menu-title">{props.t("Components")}</li>
+            <li className="menu-title">Components</li>
 
             <li>
               <Link to="/#" className="has-arrow">
                 <i className="bx bx-tone" />
-                <span>{props.t("UI Elements")}</span>
+                <span>UI Elements</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Alerts")}</Link>
+                  <Link to="#">Alerts</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Buttons")}</Link>
+                  <Link to="#">Buttons</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Cards")}</Link>
+                  <Link to="#">Cards</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Carousel")}</Link>
+                  <Link to="#">Carousel</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Dropdowns")}</Link>
+                  <Link to="#">Dropdowns</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Grid")}</Link>
+                  <Link to="#">Grid</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Images")}</Link>
+                  <Link to="#">Images</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Lightbox")}</Link>
+                  <Link to="#">Lightbox</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Modals")}</Link>
+                  <Link to="#">Modals</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("OffCanvas")}</Link>
+                  <Link to="#">OffCanvas</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Range Slider")}
-                  </Link>
+                  <Link to="#">Range Slider</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Session Timeout")}
-                  </Link>
+                  <Link to="#">Session Timeout</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Progress Bars")}
-                  </Link>
+                  <Link to="#">Progress Bars</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Placeholders")}</Link>
+                  <Link to="#">Placeholders</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Tabs & Accordions")}
-                  </Link>
+                  <Link to="#">Tabs & Accordions</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Typography")}
-                  </Link>
+                  <Link to="#">Typography</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Toasts")}</Link>
+                  <Link to="#">Toasts</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Video")}</Link>
+                  <Link to="#">Video</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("General")}</Link>
+                  <Link to="#">General</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Colors")}</Link>
+                  <Link to="#">Colors</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Rating")}</Link>
+                  <Link to="#">Rating</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Notifications")}
-                  </Link>
+                  <Link to="#">Notifications</Link>
                 </li>
                 {/* <li>
                   <Link to="#">
-                    {props.t("Breadcrumb")}
+                    Breadcrumb
                   </Link>
                 </li> */}
                 <li>
-                  <Link to="#">
-                    {props.t("Utilities")}
-
-                  </Link>
+                  <Link to="#">Utilities</Link>
                 </li>
               </ul>
             </li>
 
             <li>
-              <Link to="/#" >
+              <Link to="/#">
                 <i className="bx bxs-eraser"></i>
                 <span className="badge rounded-pill bg-danger float-end">
                   10
                 </span>
-                <span>{props.t("Forms")}</span>
+                <span>Forms</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Form Elements")}</Link>
+                  <Link to="#">Form Elements</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Layouts")}</Link>
+                  <Link to="#">Form Layouts</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Form Validation")}
-                  </Link>
+                  <Link to="#">Form Validation</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Advanced")}</Link>
+                  <Link to="#">Form Advanced</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Editors")}</Link>
+                  <Link to="#">Form Editors</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form File Upload")} </Link>
+                  <Link to="#">Form File Upload </Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Repeater")}</Link>
+                  <Link to="#">Form Repeater</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Wizard")}</Link>
+                  <Link to="#">Form Wizard</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Form Mask")}</Link>
+                  <Link to="#">Form Mask</Link>
                 </li>
                 {/* <li>
-                  <Link to="/dual-listbox">{props.t("Transfer List")}</Link>
+                  <Link to="/dual-listbox">Transfer List</Link>
                 </li> */}
               </ul>
             </li>
@@ -661,22 +624,22 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-list-ul"></i>
-                <span>{props.t("Tables")}</span>
+                <span>Tables</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Basic Tables")}</Link>
+                  <Link to="#">Basic Tables</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Data Tables")}</Link>
+                  <Link to="#">Data Tables</Link>
                 </li>
                 {/* <li>
                   <Link to="/tables-responsive">
-                    {props.t("Responsive Table")}
+                    Responsive Table
                   </Link>
                 </li>
                 <li>
-                  <Link to="/tables-dragndrop">{props.t("Drag & Drop Table")}</Link>
+                  <Link to="/tables-dragndrop">Drag & Drop Table</Link>
                 </li> */}
               </ul>
             </li>
@@ -684,29 +647,27 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bxs-bar-chart-alt-2"></i>
-                <span>{props.t("Charts")}</span>
+                <span>Charts</span>
               </Link>
 
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Apex charts")}</Link>
+                  <Link to="#">Apex charts</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Chartjs Chart")}</Link>
+                  <Link to="#">Chartjs Chart</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("E Chart")}</Link>
+                  <Link to="#">E Chart</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Sparkline Chart")}
-                  </Link>
+                  <Link to="#">Sparkline Chart</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Knob Chart")}</Link>
+                  <Link to="#">Knob Chart</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Re Chart")}</Link>
+                  <Link to="#">Re Chart</Link>
                 </li>
               </ul>
             </li>
@@ -714,22 +675,20 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-aperture"></i>
-                <span>{props.t("Icons")}</span>
+                <span>Icons</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Boxicons")}</Link>
+                  <Link to="#">Boxicons</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {props.t("Material Design")}
-                  </Link>
+                  <Link to="#">Material Design</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Dripicons")}</Link>
+                  <Link to="#">Dripicons</Link>
                 </li>
                 <li>
-                  <Link to="#">{props.t("Font awesome")}</Link>
+                  <Link to="#">Font awesome</Link>
                 </li>
               </ul>
             </li>
@@ -737,35 +696,34 @@ const SidebarContent = props => {
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-map"></i>
-                <span>{props.t("Maps")}</span>
+                <span>Maps</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="#">{props.t("Google Maps")}</Link>
+                  <Link to="#">Google Maps</Link>
                 </li>
-
               </ul>
             </li>
 
             <li>
               <Link to="/#" className="has-arrow ">
                 <i className="bx bx-share-alt"></i>
-                <span>{props.t("Multi Level")}</span>
+                <span>Multi Level</span>
               </Link>
               <ul className="sub-menu">
                 <li>
-                  <Link to="/#">{props.t("Level 1.1")}</Link>
+                  <Link to="/#">Level 1.1</Link>
                 </li>
                 <li>
                   <Link to="/#" className="has-arrow">
-                    {props.t("Level 1.2")}
+                    Level 1.2
                   </Link>
                   <ul className="sub-menu">
                     <li>
-                      <Link to="/#">{props.t("Level 2.1")}</Link>
+                      <Link to="/#">Level 2.1</Link>
                     </li>
                     <li>
-                      <Link to="/#">{props.t("Level 2.2")}</Link>
+                      <Link to="/#">Level 2.2</Link>
                     </li>
                   </ul>
                 </li>
@@ -775,12 +733,12 @@ const SidebarContent = props => {
         </div>
       </SimpleBar>
     </React.Fragment>
-  );
-};
+  )
+}
 
 SidebarContent.propTypes = {
   location: PropTypes.object,
   t: PropTypes.any,
-};
+}
 
-export default withRouter(withTranslation()(SidebarContent));
+export default withRouter(SidebarContent)

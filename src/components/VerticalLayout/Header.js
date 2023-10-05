@@ -1,44 +1,40 @@
-import PropTypes from 'prop-types';
-import React, { useState } from "react";
+import PropTypes from "prop-types"
+import React, { useState } from "react"
 
-import { connect } from "react-redux";
-import { Row, Col } from "reactstrap";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux"
+import { Row, Col } from "reactstrap"
+import { Link } from "react-router-dom"
 
 // Reactstrap
-import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap";
+import { Dropdown, DropdownToggle, DropdownMenu } from "reactstrap"
 
 // Import menuDropdown
-import LanguageDropdown from "../CommonForBoth/TopbarDropdown/LanguageDropdown";
-import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown";
-import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu";
-import megamenuImg from "../../assets/images/megamenu-img.png";
+import NotificationDropdown from "../CommonForBoth/TopbarDropdown/NotificationDropdown"
+import ProfileMenu from "../CommonForBoth/TopbarDropdown/ProfileMenu"
+import megamenuImg from "../../assets/images/megamenu-img.png"
 
 // import images
-import github from "../../assets/images/brands/github.png";
-import bitbucket from "../../assets/images/brands/bitbucket.png";
-import dribbble from "../../assets/images/brands/dribbble.png";
-import dropbox from "../../assets/images/brands/dropbox.png";
-import mail_chimp from "../../assets/images/brands/mail_chimp.png";
-import slack from "../../assets/images/brands/slack.png";
+import github from "../../assets/images/brands/github.png"
+import bitbucket from "../../assets/images/brands/bitbucket.png"
+import dribbble from "../../assets/images/brands/dribbble.png"
+import dropbox from "../../assets/images/brands/dropbox.png"
+import mail_chimp from "../../assets/images/brands/mail_chimp.png"
+import slack from "../../assets/images/brands/slack.png"
 
-import logo from "../../assets/images/logo.svg";
-import logoLightSvg from "../../assets/images/logo-light.svg";
-
-//i18n
-import { withTranslation } from "react-i18next";
+import logo from "../../assets/images/logo.svg"
+import logoLightSvg from "../../assets/images/logo-light.svg"
 
 // Redux Store
 import {
   showRightSidebarAction,
   toggleLeftmenu,
   changeSidebarType,
-} from "../../store/actions";
+} from "../../store/actions"
 
 const Header = props => {
-  const [search, setsearch] = useState(false);
-  const [megaMenu, setmegaMenu] = useState(false);
-  const [socialDrp, setsocialDrp] = useState(false);
+  const [search, setsearch] = useState(false)
+  const [megaMenu, setmegaMenu] = useState(false)
+  const [socialDrp, setsocialDrp] = useState(false)
 
   function toggleFullscreen() {
     if (
@@ -48,34 +44,33 @@ const Header = props => {
     ) {
       // current working methods
       if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen();
+        document.documentElement.requestFullscreen()
       } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
+        document.documentElement.mozRequestFullScreen()
       } else if (document.documentElement.webkitRequestFullscreen) {
         document.documentElement.webkitRequestFullscreen(
           Element.ALLOW_KEYBOARD_INPUT
-        );
+        )
       }
     } else {
       if (document.cancelFullScreen) {
-        document.cancelFullScreen();
+        document.cancelFullScreen()
       } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
+        document.mozCancelFullScreen()
       } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
+        document.webkitCancelFullScreen()
       }
     }
   }
 
   function tToggle() {
-    var body = document.body;
+    var body = document.body
     if (window.screen.width <= 998) {
-      body.classList.toggle("sidebar-enable");
+      body.classList.toggle("sidebar-enable")
     } else {
-      body.classList.toggle("vertical-collpsed");
-      body.classList.toggle("sidebar-enable");
+      body.classList.toggle("vertical-collpsed")
+      body.classList.toggle("sidebar-enable")
     }
-
   }
 
   return (
@@ -83,7 +78,6 @@ const Header = props => {
       <header id="page-topbar">
         <div className="navbar-header">
           <div className="d-flex">
-
             <div className="navbar-brand-box d-lg-none d-md-block">
               <Link to="/" className="logo logo-dark">
                 <span className="logo-sm">
@@ -101,7 +95,7 @@ const Header = props => {
             <button
               type="button"
               onClick={() => {
-                tToggle();
+                tToggle()
               }}
               className="btn btn-sm px-3 font-size-16 header-item "
               id="vertical-menu-btn"
@@ -114,7 +108,7 @@ const Header = props => {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder={props.t("Search") + "..."}
+                  placeholder="Search"
                 />
                 <span className="bx bx-search-alt" />
               </div>
@@ -124,101 +118,91 @@ const Header = props => {
               className="dropdown-mega d-none d-lg-block ms-2"
               isOpen={megaMenu}
               toggle={() => {
-                setmegaMenu(!megaMenu);
+                setmegaMenu(!megaMenu)
               }}
             >
-              <DropdownToggle
-                className="btn header-item "
-                caret
-                tag="button"
-              >
+              <DropdownToggle className="btn header-item " caret tag="button">
                 {" "}
-                {props.t("Mega Menu")} <i className="mdi mdi-chevron-down" />
+                Mega Menu <i className="mdi mdi-chevron-down" />
               </DropdownToggle>
               <DropdownMenu className="dropdown-megamenu">
                 <Row>
                   <Col sm={8}>
                     <Row>
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {props.t("UI Components")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">UI Components</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{props.t("Lightbox")}</Link>
+                            <Link to="#">Lightbox</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Range Slider")}</Link>
+                            <Link to="#">Range Slider</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Sweet Alert")}</Link>
+                            <Link to="#">Sweet Alert</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Rating")}</Link>
+                            <Link to="#">Rating</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Forms")}</Link>
+                            <Link to="#">Forms</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Tables")}</Link>
+                            <Link to="#">Tables</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Charts")}</Link>
+                            <Link to="#">Charts</Link>
                           </li>
                         </ul>
                       </Col>
 
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {props.t("Applications")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">Applications</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{props.t("Ecommerce")}</Link>
+                            <Link to="#">Ecommerce</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Calendar")}</Link>
+                            <Link to="#">Calendar</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Email")}</Link>
+                            <Link to="#">Email</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Projects")}</Link>
+                            <Link to="#">Projects</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Tasks")}</Link>
+                            <Link to="#">Tasks</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Contacts")}</Link>
+                            <Link to="#">Contacts</Link>
                           </li>
                         </ul>
                       </Col>
 
                       <Col md={4}>
-                        <h5 className="font-size-14 mt-0">
-                          {props.t("Extra Pages")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">Extra Pages</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{props.t("Light Sidebar")}</Link>
+                            <Link to="#">Light Sidebar</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Compact Sidebar")}</Link>
+                            <Link to="#">Compact Sidebar</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Horizontal layout")}</Link>
+                            <Link to="#">Horizontal layout</Link>
                           </li>
                           <li>
-                            <Link to="#"> {props.t("Maintenance")}</Link>
+                            <Link to="#"> Maintenance</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Coming Soon")}</Link>
+                            <Link to="#">Coming Soon</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Timeline")}</Link>
+                            <Link to="#">Timeline</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("FAQs")}</Link>
+                            <Link to="#">FAQs</Link>
                           </li>
                         </ul>
                       </Col>
@@ -227,30 +211,28 @@ const Header = props => {
                   <Col sm={4}>
                     <Row>
                       <Col sm={6}>
-                        <h5 className="font-size-14 mt-0">
-                          {props.t("UI Components")}
-                        </h5>
+                        <h5 className="font-size-14 mt-0">UI Components</h5>
                         <ul className="list-unstyled megamenu-list">
                           <li>
-                            <Link to="#">{props.t("Lightbox")}</Link>
+                            <Link to="#">Lightbox</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Range Slider")}</Link>
+                            <Link to="#">Range Slider</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Sweet Alert")}</Link>
+                            <Link to="#">Sweet Alert</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Rating")}</Link>
+                            <Link to="#">Rating</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Forms")}</Link>
+                            <Link to="#">Forms</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Tables")}</Link>
+                            <Link to="#">Tables</Link>
                           </li>
                           <li>
-                            <Link to="#">{props.t("Charts")}</Link>
+                            <Link to="#">Charts</Link>
                           </li>
                         </ul>
                       </Col>
@@ -274,7 +256,7 @@ const Header = props => {
             <div className="dropdown d-inline-block d-lg-none ms-2">
               <button
                 onClick={() => {
-                  setsearch(!search);
+                  setsearch(!search)
                 }}
                 type="button"
                 className="btn header-item noti-icon "
@@ -310,13 +292,11 @@ const Header = props => {
               </div>
             </div>
 
-            <LanguageDropdown />
-
             <Dropdown
               className="d-none d-lg-inline-block ms-1"
               isOpen={socialDrp}
               toggle={() => {
-                setsocialDrp(!socialDrp);
+                setsocialDrp(!socialDrp)
               }}
             >
               <DropdownToggle
@@ -376,7 +356,7 @@ const Header = props => {
               <button
                 type="button"
                 onClick={() => {
-                  toggleFullscreen();
+                  toggleFullscreen()
                 }}
                 className="btn header-item noti-icon "
                 data-toggle="fullscreen"
@@ -389,8 +369,8 @@ const Header = props => {
             <ProfileMenu />
 
             <div
-               onClick={() => {
-                props.showRightSidebarAction(!props.showRightSidebar);
+              onClick={() => {
+                props.showRightSidebarAction(!props.showRightSidebar)
               }}
               className="dropdown d-inline-block"
             >
@@ -405,8 +385,8 @@ const Header = props => {
         </div>
       </header>
     </React.Fragment>
-  );
-};
+  )
+}
 
 Header.propTypes = {
   changeSidebarType: PropTypes.func,
@@ -415,21 +395,17 @@ Header.propTypes = {
   showRightSidebar: PropTypes.any,
   showRightSidebarAction: PropTypes.func,
   t: PropTypes.any,
-  toggleLeftmenu: PropTypes.func
-};
+  toggleLeftmenu: PropTypes.func,
+}
 
 const mapStatetoProps = state => {
-  const {
-    layoutType,
-    showRightSidebar,
-    leftMenu,
-    leftSideBarType,
-  } = state.Layout;
-  return { layoutType, showRightSidebar, leftMenu, leftSideBarType };
-};
+  const { layoutType, showRightSidebar, leftMenu, leftSideBarType } =
+    state.Layout
+  return { layoutType, showRightSidebar, leftMenu, leftSideBarType }
+}
 
 export default connect(mapStatetoProps, {
   showRightSidebarAction,
   toggleLeftmenu,
   changeSidebarType,
-})(withTranslation()(Header));
+})(Header)
